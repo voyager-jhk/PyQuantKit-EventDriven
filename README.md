@@ -1,5 +1,11 @@
 # PyQuantKit-EventDriven: A Modular Event-Driven Backtester in Python
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+A modular, event-driven quantitative backtesting engine built in Python...
+
 A from-scratch, event-driven backtesting engine designed to test quantitative trading strategies. This project was built to demonstrate a deep understanding of trading system architecture and to provide a flexible framework for strategy research.
 
 ## Project Overview and Goals
@@ -7,10 +13,11 @@ A from-scratch, event-driven backtesting engine designed to test quantitative tr
 The primary goal of this project is to build a robust and modular backtesting system that mimics the operational flow of a live trading environment. Instead of relying heavily on pre-built libraries, this engine is constructed from the ground up to showcase core software design principles like decoupling and event-driven architecture.
 
 **Key Objectives:**
-* **Build a Decoupled System:** Each component (Data, Strategy, Portfolio, Execution) operates independently and communicates via a central event queue.
-* **Simulate Real-World Trading:** The system accounts for realistic factors like commissions and slippage.
-* **Provide Comprehensive Analysis:** Automatically calculates and visualizes key performance metrics such as Sharpe Ratio, Max Drawdown, and the portfolio's equity curve.
-* **Ensure Extensibility:** The framework is designed to be easily extendable with new strategies, data sources, and risk management modules.
+
+- **Build a Decoupled System:** Each component (Data, Strategy, Portfolio, Execution) operates independently and communicates via a central event queue.
+- **Simulate Real-World Trading:** The system accounts for realistic factors like commissions and slippage.
+- **Provide Comprehensive Analysis:** Automatically calculates and visualizes key performance metrics such as Sharpe Ratio, Max Drawdown, and the portfolio's equity curve.
+- **Ensure Extensibility:** The framework is designed to be easily extendable with new strategies, data sources, and risk management modules.
 
 ## Directory Structure Explanation
 
@@ -39,7 +46,7 @@ PyQuantKit-EventDriven/
 │   └── strategy_analysis_AAPL_DMAC.ipynb
 ├── main.py              # Main script to configure and run the backtest
 ├── requirements.txt     # List of Python dependencies
-├── README.md            
+├── README.md
 └── .gitignore
 ```
 
@@ -48,16 +55,19 @@ PyQuantKit-EventDriven/
 Follow these steps to set up the project environment and run a backtest.
 
 **1. Prerequisites:**
-* Python 3.9 or higher
-* Git
+
+- Python 3.9 or higher
+- Git
 
 **2. Clone the Repository:**
+
 ```bash
 git clone [https://github.com/YourUsername/PyQuantKit-EventDriven.git](https://github.com/YourUsername/PyQuantKit-EventDriven.git)
 cd PyQuantKit-EventDriven
 ```
 
 **3. Set Up a Virtual Environment (Recommended):**
+
 ```bash
 # For macOS/Linux
 python3 -m venv venv
@@ -70,10 +80,13 @@ python -m venv venv
 
 **4. Install Dependencies:**
 The required packages are listed in `requirements.txt`.
+
 ```bash
 pip install -r requirements.txt
 ```
+
 The `requirements.txt` file should contain:
+
 ```
 pandas
 numpy
@@ -81,15 +94,17 @@ matplotlib
 ```
 
 **5. Download Market Data:**
-* Download historical daily stock data in CSV format (e.g., from Yahoo Finance).
-* The CSV file must contain at least these columns: `Date`, `Open`, `High`, `Low`, `Close`, `Volume`.
-* Place the data files in the `/data` directory. Name them using the format `SYMBOL_1d.csv` (e.g., `AAPL_1d.csv`).
+
+- Download historical daily stock data in CSV format (e.g., from Yahoo Finance).
+- The CSV file must contain at least these columns: `Date`, `Open`, `High`, `Low`, `Close`, `Volume`.
+- Place the data files in the `/data` directory. Name them using the format `SYMBOL_1d.csv` (e.g., `AAPL_1d.csv`).
 
 ## How to Run an Example Backtest
 
 The `main.py` script is the entry point for running a backtest. You can configure the symbols, initial capital, and strategy within this file.
 
 **To run the default Dual Moving Average Crossover strategy on AAPL:**
+
 ```bash
 python main.py
 ```
@@ -98,6 +113,7 @@ python main.py
 You will see log messages in the console tracking the backtest progress, followed by a final performance summary and a plot showing the equity curve and drawdown.
 
 **Console Output Example:**
+
 ```
 Backtest finished in 1.23 seconds.
 
@@ -108,23 +124,25 @@ Total Return:    52.18%
 Sharpe Ratio:    0.85
 Max Drawdown:    15.33%
 ```
+
 A plot window will also appear displaying the results visually.
 
 ## Explanation of Core Components
 
-* **Event Queue:** The central message bus of the system. All components communicate by sending and receiving `Event` objects through this queue.
-* **Data Handler:** Reads historical data from CSV files and generates `MarketEvent`s for each new bar, simulating a live data feed.
-* **Strategy:** The "brains" of the operation. It receives `MarketEvent`s and generates `SignalEvent`s (e.g., LONG, SHORT, EXIT) based on its internal logic.
-* **Portfolio:** The risk and position manager. It receives `SignalEvent`s and decides how to size orders, generating `OrderEvent`s. It also receives `FillEvent`s to track its cash, positions, and overall PnL, producing the final equity curve.
-* **Execution Handler:** Simulates a brokerage. It receives `OrderEvent`s and converts them into `FillEvent`s, modeling real-world costs like commission and slippage.
+- **Event Queue:** The central message bus of the system. All components communicate by sending and receiving `Event` objects through this queue.
+- **Data Handler:** Reads historical data from CSV files and generates `MarketEvent`s for each new bar, simulating a live data feed.
+- **Strategy:** The "brains" of the operation. It receives `MarketEvent`s and generates `SignalEvent`s (e.g., LONG, SHORT, EXIT) based on its internal logic.
+- **Portfolio:** The risk and position manager. It receives `SignalEvent`s and decides how to size orders, generating `OrderEvent`s. It also receives `FillEvent`s to track its cash, positions, and overall PnL, producing the final equity curve.
+- **Execution Handler:** Simulates a brokerage. It receives `OrderEvent`s and converts them into `FillEvent`s, modeling real-world costs like commission and slippage.
 
 ## Future Improvements Planned
 
 This project provides a solid foundation. Future enhancements could include:
-* [ ] **More Complex Strategies:** Implement statistical arbitrage (pairs trading) or basic machine learning-based strategies.
-* [ ] **Advanced Risk Management:** Add dynamic position sizing (e.g., Kelly Criterion, fixed fractional) and stop-loss/take-profit orders.
-* [ ] **Support for More Data Sources:** Add handlers for live data from APIs (e.g., Alpaca, Interactive Brokers) or other database formats.
-* [ ] **Live Trading Integration:** Develop an `ExecutionHandler` that connects to a real brokerage API to execute live trades.
-* [ ] **Enhanced Performance Analytics:** Add more metrics like the Sortino Ratio, Calmar Ratio, and trade-level statistics (win rate, profit factor).
-* [ ] **Parameter Optimization:** Build a wrapper around the backtester to systematically test a range of strategy parameters.
-* [ ] **Vectorized Backtesting Module:** For comparison, build a simple vectorized backtester to see the speed differences for strategies that don't require path-dependency.
+
+- [ ] **More Complex Strategies:** Implement statistical arbitrage (pairs trading) or basic machine learning-based strategies.
+- [ ] **Advanced Risk Management:** Add dynamic position sizing (e.g., Kelly Criterion, fixed fractional) and stop-loss/take-profit orders.
+- [ ] **Support for More Data Sources:** Add handlers for live data from APIs (e.g., Alpaca, Interactive Brokers) or other database formats.
+- [ ] **Live Trading Integration:** Develop an `ExecutionHandler` that connects to a real brokerage API to execute live trades.
+- [ ] **Enhanced Performance Analytics:** Add more metrics like the Sortino Ratio, Calmar Ratio, and trade-level statistics (win rate, profit factor).
+- [ ] **Parameter Optimization:** Build a wrapper around the backtester to systematically test a range of strategy parameters.
+- [ ] **Vectorized Backtesting Module:** For comparison, build a simple vectorized backtester to see the speed differences for strategies that don't require path-dependency.
